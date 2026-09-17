@@ -45,10 +45,11 @@ export const Home: React.FC<HomeProps> = ({ searchQuery }) => {
   const currentProducts = currentCategory
     ? productsByCategory[currentCategory]
     : [];
+  const allProducts = Object.values(productsByCategory).flat();
 
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
   const filteredProducts = normalizedSearchQuery
-    ? currentProducts.filter((product) =>
+    ? allProducts.filter((product) =>
         product.name.toLowerCase().includes(normalizedSearchQuery)
       )
     : currentProducts;
@@ -63,14 +64,35 @@ export const Home: React.FC<HomeProps> = ({ searchQuery }) => {
       {/* Ana Kategori Grid - Sadece hiçbir kategori seçilmediğinde göster */}
       {!currentCategory && (
         <section id="anasayfa">
-          <CategoryGrid categories={filteredCategories} onCategoryClick={handleCategoryClick} />
+          {filteredCategories.length > 0 && (
+            <CategoryGrid categories={filteredCategories} onCategoryClick={handleCategoryClick} />
+          )}
+          {normalizedSearchQuery && filteredProducts.length > 0 && (
+            <section className="mt-12 border-t border-line pt-8" aria-labelledby="search-results-title">
+              <div className="mb-6 flex items-end justify-between gap-4">
+                <div>
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold">Tüm kategorilerde</p>
+                  <h2 id="search-results-title" className="font-[Georgia,serif] text-2xl text-ink sm:text-3xl">
+                    Ürün sonuçları
+                  </h2>
+                </div>
+                <span className="text-xs text-muted">{filteredProducts.length} sonuç</span>
+              </div>
+              <ProductGrid products={filteredProducts} />
+            </section>
+          )}
+          {normalizedSearchQuery && filteredCategories.length === 0 && filteredProducts.length === 0 && (
+            <p className="py-12 text-center text-sm text-muted">
+              “{searchQuery}” için sonuç bulunamadı.
+            </p>
+          )}
         </section>
       )}
 
       {/* Kategori Detay Sayfaları */}
       {currentCategory && currentCategoryData && (
         <section id="category-detail" className="animate-fadeIn">
-          <div className="mb-8 flex items-center justify-between pb-6 border-b border-line">
+          <div className="mb-8 flex items-center justify-between gap-4 border-b border-line pb-6">
             <button
               onClick={handleBackHome}
               className="inline-flex items-center gap-2 text-sm font-semibold text-gold uppercase tracking-wider no-underline hover:text-[#c9964a] transition-colors group"
@@ -78,13 +100,15 @@ export const Home: React.FC<HomeProps> = ({ searchQuery }) => {
               <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
               Tüm Kategoriler
             </button>
-            <h2 className="text-lg font-bold uppercase tracking-widest text-ink\">
+            <h2 className="max-w-[48%] text-right text-sm font-bold uppercase leading-tight tracking-[0.16em] text-ink sm:max-w-none sm:text-lg sm:tracking-widest">
               {currentCategoryData.name}
             </h2>
           </div>
 
-          {filteredProducts.length > 0 ? (
+          {normalizedSearchQuery && filteredProducts.length > 0 ? (
             <ProductGrid products={filteredProducts} />
+          ) : !normalizedSearchQuery ? (
+            <ProductGrid products={currentProducts} />
           ) : (
             <p className="py-12 text-center text-sm text-muted">
               “{searchQuery}” için ürün bulunamadı.

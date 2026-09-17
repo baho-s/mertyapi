@@ -24,6 +24,10 @@ export const Header: React.FC<HeaderProps> = ({
 
             <a
               href="#"
+              onClick={() => {
+                onSearchChange?.('');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               className="text-center no-underline transition-opacity hover:opacity-90"
               aria-label="MERTYAPI ana sayfa"
             >
@@ -33,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({
             </a>
           </div>
 
-          <div className="flex min-w-0 items-center justify-end gap-2 text-[8px] font-medium uppercase tracking-[0.08em] text-[#1f1b17] sm:gap-5 sm:text-[10px] sm:tracking-[0.12em]">
+          <div className="flex min-w-0 items-center justify-end gap-2 text-[9px] font-medium uppercase tracking-[0.08em] text-[#1f1b17] sm:gap-5 sm:text-[11px] sm:tracking-[0.12em]">
             <a
               href="#hakkimizda"
               className="no-underline text-[#1f1b17] transition-opacity hover:opacity-70"
