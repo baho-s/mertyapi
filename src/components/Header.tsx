@@ -59,12 +59,6 @@ export const Header: React.FC<HeaderProps> = ({
               />
             </div>
 
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-full border border-[#1d1a18] bg-[#efe6d7] px-4 py-2 text-[10px] font-medium uppercase tracking-[0.14em] text-[#1f1b17] transition-colors hover:bg-[#e8dcc2]"
-            >
-              KATALOG İNDİR
-            </button>
           </div>
         </div>
       </div>

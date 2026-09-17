@@ -25,7 +25,7 @@ const generateProducts = (categoryId: string): Product[] => {
   const categoryName = categoryNames[categoryId];
   return getCategoryImages(categoryId).map((image, index) => ({
     id: index + 1,
-    name: `${categoryName} ${String(image.index).padStart(2, '0')}`,
+    name: image.name ?? `${categoryName} ${String(image.index).padStart(2, '0')}`,
     image: image.url,
   }));
 };
