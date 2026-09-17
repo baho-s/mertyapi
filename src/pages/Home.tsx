@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { About } from './About';
 import { CategoryGrid } from '../components/CategoryGrid';
 import { ProductGrid } from '../components/ProductGrid';
 import { categories } from '../data/categories';
@@ -33,6 +34,10 @@ export const Home: React.FC<HomeProps> = ({ searchQuery }) => {
     window.location.hash = '';
   };
 
+  if (currentCategory === 'hakkimizda') {
+    return <About onBack={handleBackHome} />;
+  }
+
   const currentCategoryData = currentCategory
     ? categories.find((cat) => cat.slug === currentCategory)
     : null;
@@ -42,6 +47,11 @@ export const Home: React.FC<HomeProps> = ({ searchQuery }) => {
     : [];
 
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+  const filteredProducts = normalizedSearchQuery
+    ? currentProducts.filter((product) =>
+        product.name.toLowerCase().includes(normalizedSearchQuery)
+      )
+    : currentProducts;
   const filteredCategories = normalizedSearchQuery
     ? categories.filter((category) =>
         category.name.toLowerCase().includes(normalizedSearchQuery)
@@ -73,7 +83,13 @@ export const Home: React.FC<HomeProps> = ({ searchQuery }) => {
             </h2>
           </div>
 
-          <ProductGrid products={currentProducts} />
+          {filteredProducts.length > 0 ? (
+            <ProductGrid products={filteredProducts} />
+          ) : (
+            <p className="py-12 text-center text-sm text-muted">
+              “{searchQuery}” için ürün bulunamadı.
+            </p>
+          )}
         </section>
       )}
 

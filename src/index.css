@@ -10,8 +10,33 @@
   --gold: #a17a48;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+  background: var(--paper);
+}
+
 html {
   scroll-behavior: smooth;
+  scrollbar-color: #8d877d var(--paper);
+  scrollbar-width: auto;
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--paper);
+  border-radius: 999px;
+  background: #8d877d;
 }
 
 body {
